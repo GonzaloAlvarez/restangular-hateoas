@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" ng-app="app">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Angular JS Application">
+	<meta name="author" content="Gonzalo Alvarez">
+	
+	<script type="text/javascript" src="http://cdn.jsdelivr.net/angularjs/1.1.5/angular.min.js"></script>
+	<script type="text/javascript" src="http://cdn.jsdelivr.net/underscorejs/1.5.2/underscore-min.js"></script>
+	<script type="text/javascript" src="http://cdn.jsdelivr.net/restangular/1.1.3/restangular.min.js"></script>
+	
+	<script type="text/javascript" src="js/Main.js"></script>
+	<script type="text/javascript" src="js/BooksController.js"></script>
+</head>
+<body>
+	<div ng-controller="BooksController">
+		<ul>
+			<li ng-repeat="book in books">
+				{{book.name}}
+				<button ng-click="booksController.remove(book)">X</button>
+				<button ng-click="booksController.edit(book)">&#9998;</button>
+			</li>
+		</ul>
+		<span>
+			Element count: <span ng-bind="books.page.totalElements"></span>
+			Page [{{books.page.number + 1}}] of [<span ng-bind="books.page.totalPages"></span>]
+		</span>
+		<button ng-click="booksController.previousPage()">&lt;</button>
+		<button ng-click="booksController.nextPage()">&gt;</button>
+		<div>
+			<form ng-submit="booksController.save()">
+				<input type="text" ng-model="booksController.current.name"/>
+				<button type="submit">Save</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
