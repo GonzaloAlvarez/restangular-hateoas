@@ -7,29 +7,28 @@
 ************************************/
 
 var BASE_URL = 'http://localhost:8090/spring-rest-bootstrap/api';
+var CONTENT_TAG = 'content';
+var HREF_TAG = 'href';
+var LINKS_TAG = 'links';
+var GETLIST_OP = 'getList';
 
 var app = angular.module('app', ['restangular']).config(function(RestangularProvider, $httpProvider) {
+	
 	RestangularProvider.setBaseUrl(BASE_URL);
 
 	RestangularProvider.setResponseExtractor(function(data, operation, route, url, response, deferred) {
-		var retData = data;
-		if(operation == 'getList') {
-			if('content' in data)
-				retData = data.content;
-			if('page' in data)
-				retData.page = data.page;
-		}
-		return retData;
-	});
-
-	RestangularProvider.setOnElemRestangularized(function(elem, isCollection, what, Restangular){
-		if(!isCollection) {
-			if('links' in elem) {
-				elem.href = elem.links[0].href;
-				delete elem.links;
+		var returnData = data;
+		if(operation == GETLIST_OP && CONTENT_TAG in data) {
+			for(var i = 0; i < data[CONTENT_TAG].length; i++) {
+				data[CONTENT_TAG][i][HREF_TAG] = data[CONTENT_TAG][i][LINKS_TAG][0][HREF_TAG];
+				delete data[CONTENT_TAG][i][LINKS_TAG];
+			}
+			returnData = data[CONTENT_TAG];
+			delete data[CONTENT_TAG];
+			for(var key in data) {
+				returnData[key] = data[key];
 			}
 		}
-		console.log(elem);
-		return elem;
-	}); 
+		return returnData;
+	});
 });
