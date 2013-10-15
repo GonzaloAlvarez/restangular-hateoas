@@ -12,23 +12,36 @@ var HREF_TAG = 'href';
 var LINKS_TAG = 'links';
 var GETLIST_OP = 'getList';
 
-var app = angular.module('app', ['restangular']).config(function(RestangularProvider, $httpProvider) {
-	
-	RestangularProvider.setBaseUrl(BASE_URL);
+var app = angular.module('app', ['restangular', 'ngStorage', 'ui.bootstrap']);
 
-	RestangularProvider.setResponseExtractor(function(data, operation, route, url, response, deferred) {
-		var returnData = data;
-		if(operation == GETLIST_OP && CONTENT_TAG in data) {
-			for(var i = 0; i < data[CONTENT_TAG].length; i++) {
-				data[CONTENT_TAG][i][HREF_TAG] = data[CONTENT_TAG][i][LINKS_TAG][0][HREF_TAG];
-				delete data[CONTENT_TAG][i][LINKS_TAG];
+app.directive('focusOn', function() {
+	return function(scope, elem, attr) {
+		scope.$on('focusOn', function(e, name) {
+			if (name === attr.focusOn) {
+				elem[0].focus();
 			}
-			returnData = data[CONTENT_TAG];
-			delete data[CONTENT_TAG];
-			for(var key in data) {
-				returnData[key] = data[key];
-			}
-		}
-		return returnData;
-	});
+		});
+	};
+});
+
+app.factory('focus', function($rootScope, $timeout) {
+	return function(name) {
+		$timeout(function() {
+			$rootScope.$broadcast('focusOn', name);
+		});
+	}
+});
+
+app.directive('ngEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
 });

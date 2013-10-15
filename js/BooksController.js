@@ -6,7 +6,8 @@
  *
 ************************************/
 
-app.controller('BooksController', function($scope, Restangular) {
+app.controller('BooksController', ['$scope', 'AuthRestangular', '$location', 'focus', 
+function($scope, Restangular, $location, focus) {
 	
 	var booksController = $scope.booksController = {};
 	
@@ -14,11 +15,15 @@ app.controller('BooksController', function($scope, Restangular) {
 	booksController.currentPage = 0;
 	booksController.pages = 0;
 	booksController.current = {};
+	booksController.location = $location;
+	booksController.pageSize = 5;
 	
 	booksController.refresh = function() {
-		booksController.all.getList({"size":"5", "page":booksController.currentPage}).then(function(books) {
+		booksController.all.getList({"size": booksController.pageSize, "page":booksController.currentPage, "sort":"id,desc"}).then(function(books) {
 			$scope.books = books;
 			booksController.pages = books.page.totalPages;
+		}, function(error) {
+			booksController.location.path('/');
 		});
 	};
 	
@@ -37,6 +42,7 @@ app.controller('BooksController', function($scope, Restangular) {
 	};
 	
 	booksController.save = function() {
+		booksController.pageSize = 5;
 		if('route' in booksController.current) {
 			booksController.current.put().then(function(result){
 				booksController.current = {};
@@ -50,8 +56,23 @@ app.controller('BooksController', function($scope, Restangular) {
 		}
 	};
 	
-	booksController.edit = function(book) {
+	booksController.newBook = function() {
+		booksController.currentPage = 0;
+		booksController.pageSize = 4;
+		booksController.refresh();
+		booksController.current.name = '';
+		focus('startEdit');
+	};
+	
+	booksController.cancel = function() {
+		booksController.pageSize = 5;
+		booksController.current = {};
+		booksController.refresh();
+	};
+	
+	booksController.edit = function(book, event) {
 		booksController.current = book;
+		focus('startEdit');
 	};
 	
 	booksController.remove = function(book) {
@@ -59,6 +80,6 @@ app.controller('BooksController', function($scope, Restangular) {
 			booksController.refresh();
 		});
 	};
-	
+
 	booksController.refresh();
-});
+}]);

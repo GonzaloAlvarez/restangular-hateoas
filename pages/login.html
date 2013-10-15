@@ -1,0 +1,7 @@
+<link href="css/form-signin.css" rel="stylesheet"/>
+<form ng-submit="authController.login()" class="form-signin">
+	<h2 class="form-signin-heading">Login</h2>
+	<input type="text" ng-model="authController.username" class="form-control" placeholder="Username"/>
+	<input type="password" ng-model="authController.password" class="form-control" placeholder="Password"/>
+	<button type="submit" class="btn btn-primary btn-block">Login</button>
+</form>

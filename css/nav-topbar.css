@@ -1,0 +1,18 @@
+.navbar .nav div.nav-element {
+	position: relative;
+	display: block;
+	padding: 10px 15px;
+	line-height: 21px;
+	padding-top: 19.5px;
+	padding-bottom: 19.5px;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+.navbar .nav div.nav-element:hover {
+	color: #18bc9c;
+} 
+
+.navbar .nav div.nav-element span.glyphicon {
+	margin-right: 10px;
+}

@@ -1,0 +1,65 @@
+<link href="css/books-list.css" rel="stylesheet">
+<div class="books-list">
+	<h2>Books
+		<span class="btn-group" style="float: right; margin-top: 8px">
+		<button type="button" class="btn btn-default btn-sm" ng-click="booksController.newBook()" tooltip="New">
+		<span class="glyphicon glyphicon-plus"></span>
+		</button>
+		</span>
+	</h2>
+	<ul class="list-group">
+		<li class="list-group-item" ng-show="booksController.current.name !== undefined && booksController.current.route === undefined">
+			<input class="form-control input-sm input-edit" 
+					type="text" ng-enter="booksController.save()"
+					ng-model="booksController.current.name" focus-on="startEdit"/>
+			<span class="badge input-badge">
+				<button ng-click="booksController.save()" class="btn btn-xs btn-default">
+					<span class="glyphicon glyphicon-ok"></span>
+				</button>
+				<button ng-click="booksController.cancel()" class="btn btn-xs btn-default">
+					<span class="glyphicon glyphicon-remove"></span>
+				</button>
+			</span>
+		</li>
+		<li ng-repeat="book in books | orderBy:'':true" class="list-group-item">
+			<div ng-show="book != booksController.current">
+				{{book.name}}
+				<span class="badge" style="float: right">
+					<button ng-click="booksController.edit(book, $event)" class="btn btn-xs btn-default">
+						<span class="glyphicon glyphicon-edit" tooltip="Edit"></span>
+					</button>
+					<button ng-click="booksController.remove(book)" class="btn btn-xs btn-default">
+						<span class="glyphicon glyphicon-trash" tooltip="Remove"></span>
+					</button>
+				</span>
+			</div>
+			<div ng-show="book == booksController.current">
+				<input class="form-control input-sm input-edit" 
+					type="text" ng-enter="booksController.save()" 
+					ng-model="book.name" focus-on="startEdit"/>
+				<span class="badge">
+					<button ng-click="booksController.save()" class="btn btn-xs btn-default">
+						<span class="glyphicon glyphicon-ok"></span>
+					</button>
+					<button ng-click="booksController.cancel()" class="btn btn-xs btn-default">
+						<span class="glyphicon glyphicon-remove"></span>
+					</button>
+				</span>
+			</div>
+		</li>
+	</ul>
+	<ul class="pagination pagination-sm">
+		<li ng-class="{disabled:booksController.currentPage==0}">
+			<span ng-click="booksController.previousPage()" class="glyphicon glyphicon-backward"></span>
+		</li>
+		<li ng-class="{disabled:booksController.currentPage+1>=booksController.pages}">
+			<span href="#" ng-click="booksController.nextPage()" class="glyphicon glyphicon-forward"></span>
+		</li>
+	</ul>
+<!-- 	<div> -->
+<!-- 		<form ng-submit="booksController.save()"> -->
+<!-- 			<input type="text" ng-model="booksController.current.name"/> -->
+<!-- 			<button type="submit">Save</button> -->
+<!-- 		</form> -->
+<!-- 	</div> -->
+</div>

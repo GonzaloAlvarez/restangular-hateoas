@@ -6,34 +6,46 @@
 	<meta name="description" content="Angular JS Application">
 	<meta name="author" content="Gonzalo Alvarez">
 	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script type="text/javascript" src="http://cdn.jsdelivr.net/angularjs/1.1.5/angular.min.js"></script>
 	<script type="text/javascript" src="http://cdn.jsdelivr.net/underscorejs/1.5.2/underscore-min.js"></script>
-	<script type="text/javascript" src="http://cdn.jsdelivr.net/restangular/1.1.3/restangular.min.js"></script>
+	<script type="text/javascript" src="http://cdn.jsdelivr.net/restangular/1.1.3/restangular.js"></script>
+	<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+	<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/enc-base64-min.js"></script>
+
+	<script type="text/javascript" src="js/lib/ngStorage.js"></script>
+	<script type="text/javascript" src="js/lib/ui-bootstrap.js"></script>
 	
 	<script type="text/javascript" src="js/Main.js"></script>
+	<script type="text/javascript" src="js/RestangularConfig.js"></script>
+	<script type="text/javascript" src="js/RouteConfig.js"></script>
+	<script type="text/javascript" src="js/AuthService.js"></script>
+	<script type="text/javascript" src="js/AuthController.js"></script>
 	<script type="text/javascript" src="js/BooksController.js"></script>
+	
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	
+	<link href="css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="css/nav-topbar.css" rel="stylesheet"/>
 </head>
 <body>
-	<div ng-controller="BooksController">
-		<ul>
-			<li ng-repeat="book in books">
-				{{book.name}}
-				<button ng-click="booksController.remove(book)">X</button>
-				<button ng-click="booksController.edit(book)">&#9998;</button>
-			</li>
-		</ul>
-		<span>
-			Element count: <span ng-bind="books.page.totalElements"></span>
-			Page [{{books.page.number + 1}}] of [<span ng-bind="books.page.totalPages"></span>]
-		</span>
-		<button ng-click="booksController.previousPage()">&lt;</button>
-		<button ng-click="booksController.nextPage()">&gt;</button>
-		<div>
-			<form ng-submit="booksController.save()">
-				<input type="text" ng-model="booksController.current.name"/>
-				<button type="submit">Save</button>
-			</form>
+	<div ng-controller="AuthController" class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<span class="navbar-brand">Books Manager</span>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li ng-show="authController.authService.storage.authToken !== undefined">
+						<div class="nav-element" ng-click="authController.logout()"><span class="glyphicon glyphicon-off"></span>Logout</div>
+					</li>
+				</ul>
+			</div>
 		</div>
+	</div>
+	<div ng-view class="container">
 	</div>
 </body>
 </html>

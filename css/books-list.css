@@ -1,0 +1,50 @@
+body {
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: #eee;
+}
+
+.books-list {
+	max-width: 450px;
+	padding: 20px;
+	margin: 30px auto;
+}
+
+.books-list .badge {
+	margin-top: -4px;
+}
+
+.books-list span.glyphicon-trash {
+	color: #2c3e50;
+}
+
+.books-list span.glyphicon-edit {
+	color: #2c3e50;
+}
+
+.books-list .list-group {
+	margin-bottom: 0;
+}
+
+.books-list .pagination {
+	margin-top: 5px;
+	width: 100%;
+}
+
+.books-list .pagination li {
+	cursor: hand;
+	cursor: pointer;
+}
+
+.books-list .input-edit {
+	width: 81%;
+	display: inline;
+}
+
+.books-list .pagination li.forward {
+	float: right;
+}
+
+.books-list span.input-badge {
+	margin-top: 2px;
+}
